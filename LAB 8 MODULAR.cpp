@@ -2,7 +2,70 @@
 #include <iomanip>
 using namespace std;
 
-// Function to get price per night based on room type (no switch-case)
+// Function Prototypes
+
+double getPrice(int roomType);
+double calculateDiscount(int nights);
+double computeAmount(double pricePerNight, int nights, double discountRate, double& discountAmount);
+double applyPromo(double finalPrice, char promoCode);
+void displaySummary(double pricePerNight, int nights, double subtotal, double discountAmount, double finalPrice);
+void displayMessage(double finalPrice);
+
+
+int main() {
+    char repeat;
+    do {
+        int roomType, numberOfNights;
+        double pricePerNight, discountRate, discountAmount, finalPrice, subtotal;
+        char promoCode;
+
+        cout << "\n=========================================\n";
+        cout << "\t\n   FTMK GRAND HOTEL BOOKING SYSTEM   \n";
+        cout << "\n=========================================\n";
+
+        cout << "\n1. Standard Room - RM 150.00 per night\n";
+        cout << "2. Deluxe Room   - RM 200.00 per night\n";
+        cout << "3. Suite Room    - RM 300.00 per night\n";
+
+        cout << "\nEnter room type (1-3): ";
+        cin >> roomType;
+
+        cout << "Enter number of nights: ";
+        cin >> numberOfNights;
+
+        // Function Calls
+        
+        // Get price per night
+        pricePerNight = getPrice(roomType);
+        if (pricePerNight == 0.0) return 0; // invalid room type
+
+        // Calculate discount rate
+        discountRate = calculateDiscount(numberOfNights);
+
+        // Compute subtotal and final price
+        subtotal = pricePerNight * numberOfNights;
+        finalPrice = computeAmount(pricePerNight, numberOfNights, discountRate, discountAmount);
+
+        // Promo code
+        cout << "\nDo you have promo code? (Y/N): ";
+        cin >> promoCode;
+        finalPrice = applyPromo(finalPrice, promoCode);
+
+        // Display summary and message
+        displaySummary(pricePerNight, numberOfNights, subtotal, discountAmount, finalPrice);
+        displayMessage(finalPrice);
+
+        cout << "\nDo you want to make another booking? (Y/N): ";
+        cin >> repeat;
+
+    } while (repeat == 'Y' || repeat == 'y');
+
+    return 0;
+}
+
+// Function Definitions
+
+// Function to get price per night based on room type
 double getPrice(int roomType) {
     if (roomType == 1) {
         cout << "\nYou selected Standard Room.\n";
@@ -74,53 +137,4 @@ void displayMessage(double finalPrice) {
         cout << "Thank you for booking with FTMK Grand Hotel.\n";
     }
     cout << "====================================================\n";
-}
-
-int main() {
-    char repeat;
-    do {
-        int roomType, numberOfNights;
-        double pricePerNight, discountRate, discountAmount, finalPrice, subtotal;
-        char promoCode;
-
-        cout << "\n=========================================\n";
-        cout << "\t\n   FTMK GRAND HOTEL BOOKING SYSTEM   \n";
-        cout << "\n=========================================\n";
-
-        cout << "\n1. Standard Room - RM 150.00 per night\n";
-        cout << "2. Deluxe Room   - RM 200.00 per night\n";
-        cout << "3. Suite Room    - RM 300.00 per night\n";
-
-        cout << "\nEnter room type (1-3): ";
-        cin >> roomType;
-
-        cout << "Enter number of nights: ";
-        cin >> numberOfNights;
-
-        // Get price per night
-        pricePerNight = getPrice(roomType);
-        if (pricePerNight == 0.0) return 0; // invalid room type
-
-        // Calculate discount rate
-        discountRate = calculateDiscount(numberOfNights);
-
-        // Compute subtotal and final price
-        subtotal = pricePerNight * numberOfNights;
-        finalPrice = computeAmount(pricePerNight, numberOfNights, discountRate, discountAmount);
-
-        // Promo code
-        cout << "\nDo you have promo code? (Y/N): ";
-        cin >> promoCode;
-        finalPrice = applyPromo(finalPrice, promoCode);
-
-        // Display summary and message
-        displaySummary(pricePerNight, numberOfNights, subtotal, discountAmount, finalPrice);
-        displayMessage(finalPrice);
-
-        cout << "\nDo you want to make another booking? (Y/N): ";
-        cin >> repeat;
-
-    } while (repeat == 'Y' || repeat == 'y');
-
-    return 0;
 }
